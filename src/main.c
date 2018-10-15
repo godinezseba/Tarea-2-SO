@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
-    int a = 1;
-    printf("Hola Mundo, %d", a);
+    int a;
+    scanf("%d", &a);
+    printf("%d\n", a);
     return 0;
 }
