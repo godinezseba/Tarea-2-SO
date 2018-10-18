@@ -1,4 +1,3 @@
 .vscode/
 *.pdf
-main.exe
-main
+main*

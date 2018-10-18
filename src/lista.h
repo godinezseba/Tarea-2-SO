@@ -114,5 +114,10 @@ new un elemento (el nuevo)
 Retorno: nada
 ************************************************/
 void change(tLista *l,void *new);
-
+/******** Funcion: getValue ********************
+Descripcion: Printea la lista
+Parametros:
+l el puntero de una lista
+Retorno: nada
+************************************************/
 void printL(tLista *l);
