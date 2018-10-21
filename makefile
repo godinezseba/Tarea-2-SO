@@ -1,7 +1,7 @@
 all:
-	gcc -Wall src/bot.c -o src/bot
-	gcc -Wall src/usuario.c -o src/user
-	gcc -Wall src/lista.h src/lista.c src/main.c -o main
+	gcc -Wall src/Players/bot.c -o src/Players/bot
+	gcc -Wall src/Players/usuario.c -o src/Players/user
+	gcc -Wall src/Lista/lista.h src/Lista/lista.c src/main.c -o main
 run:
 	./main
 val:
