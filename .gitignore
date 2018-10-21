@@ -1,3 +1,6 @@
 .vscode/
 *.pdf
-main*
+main
+# Los EXEC del bot y el usuario
+src/Players/bot
+src/Players/usuario
