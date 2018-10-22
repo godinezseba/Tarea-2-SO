@@ -7,3 +7,7 @@ void closePipes(const int read, const int write){
         exit(EXIT_FAILURE);
     }
 }
+
+int DadoChoice(){
+    return 1;
+}
