@@ -1,6 +1,8 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
 #include "../funciones/procesos.h"
 #include "bot.h"
-#include <stdbool.h>
 
 
 int MainBot(const int LPipe, const int EPipe, const int num_player) {
@@ -12,6 +14,8 @@ int MainBot(const int LPipe, const int EPipe, const int num_player) {
     ssize_t nread; // valor entregado por read()
     char entrada, salida;
     int dado; // resultado del dado
+	time_t t;
+    srand( (unsigned) (((unsigned) (time(&t)) % (num_player + EPipe)) * (LPipe - getpid())) ); //genero la base para los numeros aleatorios
 
     while (!termino) {
         if ( (nread = read(LPipe, &entrada, 1)) == -1 ) { // LEE desde el padre
@@ -30,8 +34,10 @@ int MainBot(const int LPipe, const int EPipe, const int num_player) {
                     break;
                 case 0: // mi turno
                     dado = DadoChoice();
+                    printf("***Jugador %d, obtuvo %d\n", num_player, dado); //DEBUG
                     posicion += dado;
-                    if(posicion == LARGO_TABLERO -1){ //GANE
+                    printf("***Posicion: %d\n", posicion);
+                    if(posicion >= LARGO_TABLERO - 1){ //GANE
                         salida = 1;
                     }else{ // por ahora otro caso
                         salida = 0;

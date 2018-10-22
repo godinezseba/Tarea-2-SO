@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
 #include <sys/types.h> 
 #include <sys/wait.h> 
 #include "funciones/procesos.h"
@@ -12,7 +14,6 @@ int main(int argc, char const *argv[]){
 	int posJugador; // Posicion del Jugador
 	char entrada, salida; // variables que almacenan la entrada y salida de datos
     ssize_t nread; // valor entregado por read()
-
 	/*CREO LOS 4 JUGADORES:*/
 
 	for (int i = 0; i < 4; i++) {
@@ -49,14 +50,14 @@ int main(int argc, char const *argv[]){
 	bool termino = false;
 	while(!termino){
 		salida = 0;
-		for (int i = 0; !termino || i < 4; i++){
-			if (write(padre_hijo[ESCRIBIR], &salida, 1) == -1){
+		for (int i = 0; !termino && i < 4; i++){
+			if (write(padre_hijo[i][ESCRIBIR], &salida, 1) == -1){
 				printf("Error al escribir al hijo %d --Proceso %d--\n", i +1 , jugadores[i]);
 				return 1;
 			}else{ //DEBUG
 				printf("Padre escribe %d sobre el hijo %d --Proceso %d--\n",salida, i +1, jugadores[i]); 
 			}
-			if ( (nread = read(hijo_padre[LEER], &entrada, 1)) == -1 ) { // LEE desde el padre
+			if ( (nread = read(hijo_padre[i][LEER], &entrada, 1)) == -1 ) { // LEE desde el padre
 				printf("Error al leer el Pipe del jugador %d --Proceso %d--\n",  i +1 , jugadores[i]);
 				return -1;
 			}
@@ -67,7 +68,7 @@ int main(int argc, char const *argv[]){
 			else{
             	printf("Padre recibe del hijo %d, %d --Proceso %d--\n", i+1, entrada, jugadores[i]); // DEBUG
 				if(entrada == 1){ //GANO
-					printf("Felicidades por ganar Jugador %d", i+1);
+					printf("Felicidades por ganar Jugador %d!!!!\n", i+1);
 					termino = true;
 				}
 			}
@@ -76,17 +77,18 @@ int main(int argc, char const *argv[]){
 
 	/*TERMINO LOS PROCESOS (JUGADORES)*/
 	salida = -1;
+	printf("---PARTE FINAL---\n");
 	for(int i = 0; i < 4; i++){
 		if ( write(padre_hijo[i][ESCRIBIR], &salida, 1) == -1){
 			printf("Error al escribir sobre el jugador %d\n", i + 1);
 			return 1;
 		}else{ //DEBUG
-			printf("Padres escribe %d sobre el hijo %d --Proceso %d--\n",salida, i+1, jugadores[i]); 
+			printf("Padres escribe %d sobre el hijo %d --Proceso %d--\n",salida, i+1, jugadores[i]); //DEBUG
 		}
 
 		waitpid(jugadores[i], NULL, 0); // espero a que termine el hijo
 		closePipes(padre_hijo[i][ESCRIBIR], hijo_padre[i][LEER]);
-		printf("Salio el Jugador %d --Proceso %d--\n", i+1, jugadores[i]); 
+		printf("Salio el Jugador %d --Proceso %d--\n", i+1, jugadores[i]); //DEBUG
 	}
 
 	puts("Adios!");
