@@ -1,7 +1,13 @@
 #include <stdlib.h>
 
 typedef struct Ttablero{
-    unsigned char *tablero; // tablero
-    char signo; // creciente o decreciente
+    char *mesa; // tablero
+    char signo; // creciente(1) o decreciente(-1)
     int largo; // largo tablero
-}juego;
+    // agregar jugadores
+}Juego;
+
+Juego *newTablero();
+void changeLado(Juego *tablero);
+void printTablero(Juego *tablero);
+void freeTablero(Juego *tablero);
