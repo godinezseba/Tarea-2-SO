@@ -35,6 +35,7 @@ int main(int argc, char const *argv[]){
 		// 	return 0;
 		} else if ( jugadores[i] == 0 ) { //estoy en proceso hijo
 			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
+			printf("ID YO %d, ID PADRE %d\n", getpid(), getppid());
 			// printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]); // DEBUG
 			if (MainBot(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1) == -1){
 				printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);

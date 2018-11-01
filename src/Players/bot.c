@@ -4,6 +4,9 @@
 #include "../funciones/procesos.h"
 #include "bot.h"
 
+int movimientoBot(){
+    
+}
 
 int MainBot(const int LPipe, const int EPipe, const int num_player) {
     // DEBUG
