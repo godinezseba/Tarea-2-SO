@@ -6,6 +6,7 @@
 #include <sys/wait.h> 
 #include "funciones/procesos.h"
 #include "Players/bot.h"
+#include "Tablero/tablero.h"
 
 int main(int argc, char const *argv[]){
 	pid_t jugadores[4]; // ID de los procesos hijos
@@ -14,6 +15,7 @@ int main(int argc, char const *argv[]){
 	int posJugador; // Posicion del Jugador
 	char entrada, salida; // variables que almacenan la entrada y salida de datos
     ssize_t nread; // valor entregado por read()
+	Juego *tablero;
 	/*CREO LOS 4 JUGADORES:*/
 
 	for (int i = 0; i < 4; i++) {
@@ -37,7 +39,7 @@ int main(int argc, char const *argv[]){
 			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
 			printf("ID YO %d, ID PADRE %d\n", getpid(), getppid());
 			// printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]); // DEBUG
-			if (MainBot(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1) == -1){
+			if (MainBot(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
 				printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
 				exit(1);
 			}

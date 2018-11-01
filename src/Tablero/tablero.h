@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 typedef struct Ttablero{
     char *mesa; // tablero
     char signo; // creciente(1) o decreciente(-1)

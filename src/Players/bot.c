@@ -3,12 +3,13 @@
 #include <time.h>
 #include "../funciones/procesos.h"
 #include "bot.h"
+#include "../Tablero/tablero.h"
 
 int movimientoBot(){
     
 }
 
-int MainBot(const int LPipe, const int EPipe, const int num_player) {
+int MainBot(const int LPipe, const int EPipe, const int num_player, Juego * tablero) {
     // DEBUG
     // printf("soy el proceso de PID %d y mi padre tiene %d de PID.\n", getpid(), getppid());
     // printf("Soy el bot %d!\n", num_player);
@@ -40,7 +41,7 @@ int MainBot(const int LPipe, const int EPipe, const int num_player) {
                     printf("***Jugador %d, obtuvo %d\n", num_player, dado); //DEBUG
                     posicion += dado;
                     printf("***Posicion: %d\n", posicion);
-                    if(posicion >= LARGO_TABLERO - 1){ //GANE
+                    if(posicion >= tablero->largo - 1){ //GANE
                         salida = 1;
                     }else{ // por ahora otro caso
                         salida = 0;
