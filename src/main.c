@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]){
 	bool termino = false;
 	while(!termino){
 		salida = 0;
-		for (beginIteracion(tablero); !termino && (getMov(tablero) > 0 && getMov(tablero) < 4); nextIteracion(tablero)){
+		for (beginIteracion(tablero); !termino && (getMov(tablero) > -1 && getMov(tablero) < 4); nextIteracion(tablero)){
 			if (write(padre_hijo[getMov(tablero)][ESCRIBIR], &salida, 1) == -1){
 				printf("Error al escribir al hijo %d --Proceso %d--\n", getMov(tablero) +1 , jugadores[getMov(tablero)]);
 				return 1;

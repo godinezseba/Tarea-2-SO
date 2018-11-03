@@ -3,7 +3,8 @@ typedef struct Ttablero{
     char signo; // creciente(1) o decreciente(-1)
     int largo; // largo tablero
     int mov; // variable para comenzar la iteracion de los jugadores
-    // agregar jugadores
+    int *players;// agregar jugadores
+    int key1, key2, key3; // keys de la memoria compartida
 }Juego;
 
 Juego *newTablero();

@@ -8,6 +8,5 @@ int main(int argc, char const *argv[])
     changeLado(tablero);
     printTablero(tablero);
     freeTablero(tablero);
-    printTablero(tablero);
     return 0;
 }
