@@ -22,3 +22,7 @@ const int write - Pipe de Escritura que se cierra
 Retorno: nada
 ************************************************/
 int DadoChoice();
+
+int Casilla1Choice();
+
+int Casilla2Choice(int numero);

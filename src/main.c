@@ -37,7 +37,7 @@ int main(int argc, char const *argv[]){
 		// 	return 0;
 		} else if ( jugadores[i] == 0 ) { //estoy en proceso hijo
 			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
-			printf("ID YO %d, ID PADRE %d\n", getpid(), getppid());
+			// printf("ID YO %d, ID PADRE %d\n", getpid(), getppid()); //DEBUG
 			// printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]); // DEBUG
 			if (MainBot(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
 				printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
@@ -48,18 +48,21 @@ int main(int argc, char const *argv[]){
 			closePipes(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]); //estando en el padre no se usan
 		}
 	}
-
+	sleep(1); // para que todos los hijos empiezen
 	/*EJECUCION DEL JUEGO*/
 	bool termino = false;
+	printf("INICIO DEL JUEGO!!\n");
+	printTablero(tablero);
 	while(!termino){
 		salida = 0;
 		for (beginIteracion(tablero); !termino && (getMov(tablero) > -1 && getMov(tablero) < 4); nextIteracion(tablero)){
 			if (write(padre_hijo[getMov(tablero)][ESCRIBIR], &salida, 1) == -1){
 				printf("Error al escribir al hijo %d --Proceso %d--\n", getMov(tablero) +1 , jugadores[getMov(tablero)]);
 				return 1;
-			}else{ //DEBUG
-				printf("Padre escribe %d sobre el hijo %d --Proceso %d--\n", salida, getMov(tablero) +1, jugadores[getMov(tablero)]); 
 			}
+			// else{ //DEBUG
+			// 	printf("Padre escribe %d sobre el hijo %d --Proceso %d--\n", salida, getMov(tablero) +1, jugadores[getMov(tablero)]); 
+			// }
 			if ( (nread = read(hijo_padre[getMov(tablero)][LEER], &entrada, 1)) == -1 ) { // LEE desde el padre
 				printf("Error al leer el Pipe del jugador %d --Proceso %d--\n",  getMov(tablero) +1 , jugadores[getMov(tablero)]);
 				return -1;
@@ -69,29 +72,31 @@ int main(int argc, char const *argv[]){
 				termino = true;
 			}
 			else{
-            	printf("Padre recibe del hijo %d, %d --Proceso %d--\n", getMov(tablero)+1, entrada, jugadores[getMov(tablero)]); // DEBUG
+            	// printf("Padre recibe del hijo %d, %d --Proceso %d--\n", getMov(tablero)+1, entrada, jugadores[getMov(tablero)]); // DEBUG
 				if(entrada == 1){ //GANO
 					printf("Felicidades por ganar Jugador %d!!!!\n", getMov(tablero)+1);
 					termino = true;
 				}
 			}
 		}
+		printTablero(tablero);
 	}
 
 	/*TERMINO LOS PROCESOS (JUGADORES)*/
 	salida = -1;
-	printf("---PARTE FINAL---\n");
+	// printf("---PARTE FINAL---\n"); //DEBUG
 	for(int i = 0; i < 4; i++){
 		if ( write(padre_hijo[i][ESCRIBIR], &salida, 1) == -1){
 			printf("Error al escribir sobre el jugador %d\n", i + 1);
 			return 1;
-		}else{ //DEBUG
-			printf("Padres escribe %d sobre el hijo %d --Proceso %d--\n",salida, i+1, jugadores[i]); //DEBUG
 		}
+		// else{ //DEBUG
+		// 	printf("Padres escribe %d sobre el hijo %d --Proceso %d--\n",salida, i+1, jugadores[i]); //DEBUG
+		// }
 
 		waitpid(jugadores[i], NULL, 0); // espero a que termine el hijo
 		closePipes(padre_hijo[i][ESCRIBIR], hijo_padre[i][LEER]);
-		printf("Salio el Jugador %d --Proceso %d--\n", i+1, jugadores[i]); //DEBUG
+		// printf("Salio el Jugador %d --Proceso %d--\n", i+1, jugadores[i]); //DEBUG
 	}
 	freeTablero(tablero);
 	puts("Adios!");

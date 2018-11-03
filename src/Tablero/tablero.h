@@ -8,7 +8,12 @@ typedef struct Ttablero{
 }Juego;
 
 Juego *newTablero();
-
+/******** Funcion: changeLado ********************
+Descripcion: cambia de sentido el tablero
+Parametros:
+tablero: tablero a modificar
+Retorno: nada
+************************************************/
 void changeLado(Juego *tablero);
 
 void printTablero(Juego *tablero);
@@ -20,5 +25,14 @@ void nextIteracion(Juego *tablero);
 void beginIteracion(Juego *tablero);
 
 int getMov(Juego *tablero);
-
+/******** Funcion: changeSentido ********************
+Descripcion: cambia el sentido del tablero
+Parametros:
+tablero: tablero a modificar
+Retorno: nada
+************************************************/
 void changeSentido(Juego *tablero);
+
+void retrocedenPlayers(Juego *tablero, int jugador);
+
+void pierdeSiguiente(Juego *);

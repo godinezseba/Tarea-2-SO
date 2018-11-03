@@ -57,7 +57,7 @@ Juego* newTablero(){
         exit(1);
     }
     for(i = 0; i < 4; i++){
-        tablero -> players[i] = 0;
+        tablero -> players[i] = 1;
     }
     tablero->key1 = shm_id;
     tablero->key2 = shm_id2;
@@ -81,14 +81,25 @@ void changeLado(Juego *tablero){
 
 void printTablero(Juego *tablero){
     int i;
+    printf("====================================================\n");
+    printf("Tablero:\n");
+    printf("   1   |");
+    for(i = 1; i < tablero->largo - 1; i++){
+        printf(" %d%s|", i +1, (i+1 > 9 ? " ": "  "));
+    }
+    printf(" 29\n");
     printf("INICIO |");
     for(i = 1; i < tablero->largo - 1; i++){
-        if(tablero ->mesa[i] != 0) printf(" %s |", (tablero->mesa[i] == '1'? "?" : "??"));
-        else printf(" %c |", '0');
+        if(tablero ->mesa[i] != '0') printf(" %s |", (tablero->mesa[i] == '1'? "? " : "??"));
+        else printf(" %s |", "  ");
     }
-    printf(" FINAL");
-    printf("\n");
+    printf(" FINAL\n");
     // AGREGAR A LOS JUGADORES
+    printf("Jugador 1: %d\n", tablero->players[0]);
+    printf("Jugador 2: %d\n", tablero->players[1]);
+    printf("Jugador 3: %d\n", tablero->players[2]);
+    printf("Jugador 4: %d\n", tablero->players[3]);
+    printf("====================================================\n");
 }
 
 void freeTablero(Juego *tablero){
@@ -120,4 +131,21 @@ int getMov(Juego *tablero){
 
 void changeSentido(Juego *tablero){
     tablero -> signo = tablero -> signo * -1;
+}
+
+void retrocedenPlayers(Juego* tablero, int jugador){
+    int i;
+    for(i = 0; i < 4; i++){
+        if(i != jugador -1)
+            tablero->players[i] += -1;
+    }
+}
+
+void pierdeSiguiente(Juego *tablero){
+    tablero -> mov = tablero -> mov + tablero -> signo;
+    if(getMov(tablero) == -1 || getMov(tablero) == 4){
+        if(getMov(tablero) == -1) tablero -> mov = 3;
+        else tablero -> mov = 0;
+        printTablero(tablero);
+    }
 }
