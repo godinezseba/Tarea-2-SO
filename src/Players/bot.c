@@ -1,15 +1,18 @@
+#include <stdio.h>
+#include <sys/types.h> 
+#include <string.h> 
+#include <sys/wait.h> 
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 #include "../funciones/procesos.h"
 #include "bot.h"
-#include "../Tablero/tablero.h"
 
 int movimientoBot(){
     
 }
 
-int MainBot(const int LPipe, const int EPipe, const int num_player, Juego * tablero) {
+int MainBot(const int LPipe, const int EPipe, const int num_player, Juego *tablero) {
     // DEBUG
     // printf("soy el proceso de PID %d y mi padre tiene %d de PID.\n", getpid(), getppid());
     // printf("Soy el bot %d!\n", num_player);

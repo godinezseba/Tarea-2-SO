@@ -69,9 +69,32 @@ void printTablero(Juego *tablero){
     }
     printf(" FINAL");
     printf("\n");
+    // AGREGAR A LOS JUGADORES
 }
 
 void freeTablero(Juego *tablero){
     shmdt(tablero->mesa);
     shmdt(tablero);
+}
+
+void nextIteracion(Juego *tablero){
+    tablero -> mov = tablero -> mov + tablero -> signo;
+}
+
+void beginIteracion(Juego *tablero){
+    if(tablero -> signo == 1){
+        tablero -> mov = 0;
+    }
+    else{
+        tablero -> mov = 3;
+    }
+    
+}
+
+int getMov(Juego *tablero){
+    return tablero -> mov;
+}
+
+void changeSentido(Juego *tablero){
+    tablero -> signo = tablero -> signo * -1;
 }

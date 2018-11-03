@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <sys/types.h> 
-#include <string.h> 
-#include <sys/wait.h> 
-#include <time.h>
 #include "../Tablero/tablero.h"
 
-int MainBot(const int, const int, const int, Juego *);
+int MainBot(const int LPipe, const int EPipe, const int num_player, Juego * tablero);
