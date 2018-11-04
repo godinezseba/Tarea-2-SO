@@ -77,6 +77,7 @@ void changeLado(Juego *tablero){
     }
     if(tablero->mesa[i] != '0') tablero->mesa[i] = (tablero->mesa[i] == '1' ? '2' : '1'); // para el de al medio
     // aqui cambio lo de los jugadores
+    for(i = 0; i < 4; i++) tablero->players[i] = 29 - tablero -> players[i] -1;
 }
 
 void printTablero(Juego *tablero){
@@ -147,5 +148,13 @@ void pierdeSiguiente(Juego *tablero){
         if(getMov(tablero) == -1) tablero -> mov = 3;
         else tablero -> mov = 0;
         printTablero(tablero);
+    }
+}
+
+void retrocedenAll(Juego *tablero){
+    for(i = 0; i < 4; i++){
+        tablero->players[i] += -2;
+        if (tablero->players[i] < 1)
+            tablero->players[i] = 1;
     }
 }

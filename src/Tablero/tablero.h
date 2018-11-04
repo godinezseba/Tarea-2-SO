@@ -36,3 +36,5 @@ void changeSentido(Juego *tablero);
 void retrocedenPlayers(Juego *tablero, int jugador);
 
 void pierdeSiguiente(Juego *);
+
+void retrocedenAll(Juego *);

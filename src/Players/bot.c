@@ -51,6 +51,7 @@ int movimientoBot(const int num_player, Juego *tablero){
             switch (opcion) { // todo se puede hacer con funciones del tablero
                 case 1:
                     printf("Todos retroceden 2 cuadriculas!\n");
+                    retrocedenAll(tablero);
                     break;
                 case 2:
                     printf("El resto avanza hasta su proxima cuadricula blanca!\n");
