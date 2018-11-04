@@ -12,9 +12,9 @@ int movimientoBot(const int num_player, Juego *tablero){
     int dado; // resultado del dado
     int opcion = 1; //
     dado = DadoChoice();
-    printf("*** Jugador %d, obtuvo un %d ***\n", num_player, dado);
+    printf("-----Jugador %d, obtuvo un %d ", num_player, dado);
     tablero->players[num_player-1] += dado;
-    printf("*** Posicion: %d ***\n", tablero->players[num_player-1]);
+    printf(", Posicion: %d *** -----\n", tablero->players[num_player-1]);
 
     switch(tablero ->  mesa[tablero->players[num_player-1]-1]){
         case '1':
@@ -55,12 +55,15 @@ int movimientoBot(const int num_player, Juego *tablero){
                     break;
                 case 2:
                     printf("El resto avanza hasta su proxima cuadricula blanca!\n");
+                    avanzaBlanca(tablero, num_player);
                     break;
                 case 3:
                     printf("Cambias con el ultimo!\n");
+                    changeMenor(tablero, num_player);
                     break;
                 case 4:
                     printf("Cambias con el primero!\n");
+                    changeMayor(tablero, num_player);
                     break;
                 case 5:
                     printf("Cambia el sentido del tablero!\n");
@@ -124,7 +127,7 @@ int MainBot(const int LPipe, const int EPipe, const int num_player, Juego *table
             }
         }
     }
-    printf("--termino el proceso %d--\n", getpid()); //DEBUG
+    // printf("--termino el proceso %d--\n", getpid()); //DEBUG
     closePipes(LPipe, EPipe);
     return 0;
 }

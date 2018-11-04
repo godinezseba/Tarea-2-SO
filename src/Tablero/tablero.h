@@ -38,3 +38,9 @@ void retrocedenPlayers(Juego *tablero, int jugador);
 void pierdeSiguiente(Juego *);
 
 void retrocedenAll(Juego *);
+
+void avanzaBlanca(Juego *, int);
+
+void changeMenor(Juego *, int);
+
+void changeMayor(Juego *, int);

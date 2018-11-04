@@ -152,9 +152,59 @@ void pierdeSiguiente(Juego *tablero){
 }
 
 void retrocedenAll(Juego *tablero){
+    int i;
     for(i = 0; i < 4; i++){
         tablero->players[i] += -2;
         if (tablero->players[i] < 1)
             tablero->players[i] = 1;
     }
+}
+
+int hastaDonde(Juego *tablero, int posicion){
+    int i;
+    for(i = posicion; i < 28; i++){
+        if(tablero -> mesa[i] == '0') return i +1;
+    }
+    return -1;
+}
+
+void avanzaBlanca(Juego *tablero, int jugador){
+    int i;
+    int avanza; //hasta donde se mueve
+    for(i = 0; i < 4; i++){
+        if (i != jugador -1) {
+            avanza = hastaDonde(tablero, tablero ->players[i]);
+            if(avanza != -1){
+                tablero ->players[i] = avanza;
+            }
+        }
+    }
+}
+
+void changeMenor(Juego *tablero, int jugador){
+    int i;
+    int menor = 100;
+    int jugador2;
+    for(i = 0; i < 4; i++){
+        if(tablero -> players[i] < menor){
+            menor = tablero -> players[i];
+            jugador2 = i;
+        }
+    }
+    tablero -> players[jugador2] = tablero -> players[jugador-1];
+    tablero -> players[jugador-1] = menor;
+}
+
+void changeMayor(Juego *tablero, int jugador){
+    int i;
+    int max = -1;
+    int jugador2;
+    for(i = 0; i < 4; i++){
+        if(tablero -> players[i] > max){
+            max = tablero -> players[i];
+            jugador2 = i;
+        }
+    }
+    tablero -> players[jugador2] = tablero -> players[jugador-1];
+    tablero -> players[jugador-1] = max;
 }
