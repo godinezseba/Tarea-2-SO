@@ -5,6 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 Juego* newTablero(){
     int i;
     char temp[] = {'0', '0', '1', '0', '1', '0', '1', '0', '0', '0', '0',
@@ -77,12 +83,12 @@ void changeLado(Juego *tablero){
     }
     if(tablero->mesa[i] != '0') tablero->mesa[i] = (tablero->mesa[i] == '1' ? '2' : '1'); // para el de al medio
     // aqui cambio lo de los jugadores
-    for(i = 0; i < 4; i++) tablero->players[i] = 29 - tablero -> players[i] -1;
+    for(i = 0; i < 4; i++) tablero->players[i] = 29 - tablero -> players[i];
 }
 
 void printTablero(Juego *tablero){
     int i;
-    printf("\n=========================== Tablero ===========================\n");
+    printf("\n             =========================== Tablero ===========================\n");
     printf("   1   |");
     for(i = 1; i < tablero->largo - 1; i++){
         printf(" %d%s|", i +1, (i+1 > 9 ? " ": "  "));
@@ -96,22 +102,22 @@ void printTablero(Juego *tablero){
     printf(" FINAL\n");
     for(i = 0; i < tablero->largo; i++){
         //player 1
-        if(tablero -> players[0] == i +1) printf("%s", (i == 0 || i == 28)? " 1" : "1");
+        if(tablero -> players[0] == i +1) printf(ANSI_COLOR_RED "%s" ANSI_COLOR_RESET, (i == 0 || i == 28)? " 1" : "1");
         else printf("%s", (i == 0)? "  " : " ");
         //player 2
-        printf("%s", (tablero -> players[1] == i +1)? "2" : " ");
+        printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, (tablero -> players[1] == i +1)? "2" : " ");
         //player 3
-        printf("%s", (tablero -> players[2] == i +1)? "3" : " ");
+        printf(ANSI_COLOR_YELLOW  "%s" ANSI_COLOR_RESET, (tablero -> players[2] == i +1)? "3" : " ");
         //player 4
         if(tablero -> players[3] == i +1){
             if (i == 0) {
-                printf("4  |");
+                printf(ANSI_COLOR_BLUE "4  " ANSI_COLOR_RESET "|");
             }
             else if(i == 28) {
-                printf("4\n");
+                printf(ANSI_COLOR_BLUE  "4" ANSI_COLOR_RESET "\n");
             }
             else {
-                printf("4|");
+                printf(ANSI_COLOR_BLUE  "4" ANSI_COLOR_RESET "|");
             }
         }
         else{
@@ -131,7 +137,7 @@ void printTablero(Juego *tablero){
     printf("Jugador 2: %d; ", tablero->players[1]);
     printf("Jugador 3: %d; ", tablero->players[2]);
     printf("Jugador 4: %d\n", tablero->players[3]);
-    printf("===============================================================\n");
+    printf("             ===============================================================\n");
     printf("\n");
 }
 
@@ -155,7 +161,6 @@ void beginIteracion(Juego *tablero){
     else{
         tablero -> mov = 3;
     }
-    
 }
 
 int getMov(Juego *tablero){

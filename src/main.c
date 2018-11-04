@@ -5,6 +5,7 @@
 #include <sys/wait.h> 
 #include "funciones/procesos.h"
 #include "Players/bot.h"
+// #include "Players/usuario.h"
 
 int main(int argc, char const *argv[]){
 	pid_t jugadores[4]; // ID de los procesos hijos
@@ -17,7 +18,14 @@ int main(int argc, char const *argv[]){
 
 	/*CREO LOS 4 JUGADORES:*/
 	tablero = newTablero();
-
+	printf("Ingrese que Jugador desea ser:\n");
+	scanf("%d", &posJugador);
+	
+	while(posJugador < 1 || posJugador > 4){
+		printf("Ingrese una opcion valida [1|2|3|4]: ");
+		scanf("%d", &posJugador);
+	}
+	posJugador += -1;
 	for (int i = 0; i < 4; i++) {
 		//creo los Pipes para este proceso hijo
 		if (pipe(padre_hijo[i]) == -1 || pipe(hijo_padre[i]) == -1) {
@@ -28,13 +36,14 @@ int main(int argc, char const *argv[]){
 		if ((jugadores[i] = fork()) < 0) {
 			perror("Error al crear un jugador");
 			abort();
-		// }else if (jugadores[posJugador] == 0) { //por ahora solo usare bots
-		// 	closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
-		// 	printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]);
-		// 	if (MainUser(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1) == -1){
-		// 		printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
-		// 	}
-		// 	return 0;
+		}else if (jugadores[posJugador] == 0) { //JUGADOR
+			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
+			// printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]);
+			if (MainUser(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
+				printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
+				exit(1);
+			}
+			exit(0);
 		} else if ( jugadores[i] == 0 ) { //estoy en proceso hijo
 			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
 			// printf("ID YO %d, ID PADRE %d\n", getpid(), getppid()); //DEBUG
@@ -86,6 +95,7 @@ int main(int argc, char const *argv[]){
 						break;
 				}
 			}
+			sleep(2); // para poder leer la salida
 		}
 	}
 

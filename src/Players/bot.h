@@ -1,3 +1,5 @@
 #include "../Tablero/tablero.h"
 
-int MainBot(const int LPipe, const int EPipe, const int num_player, Juego * tablero);
+int MainBot(const int, const int, const int, Juego *);
+
+int MainUser(const int, const int, const int, Juego *);
