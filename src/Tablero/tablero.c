@@ -83,7 +83,7 @@ void changeLado(Juego *tablero){
     }
     if(tablero->mesa[i] != '0') tablero->mesa[i] = (tablero->mesa[i] == '1' ? '2' : '1'); // para el de al medio
     // aqui cambio lo de los jugadores
-    for(i = 0; i < 4; i++) tablero->players[i] = 29 - tablero -> players[i];
+    for(i = 0; i < 4; i++) tablero->players[i] = 29 - tablero -> players[i] +1;
 }
 
 void printTablero(Juego *tablero){

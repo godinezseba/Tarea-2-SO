@@ -75,6 +75,7 @@ int movimientoBot(const int num_player, Juego *tablero){
             }
             break;
         default:
+            printf("\n\n");
             break;
     }
     if(tablero->players[num_player-1] >= tablero->largo){ //GANE
@@ -150,7 +151,7 @@ int movimientoUser(const int num_player, Juego *tablero){
             printf("----- Deseas activarlo? [Y|N]: ");
             scanf("%c", &decision);
             while(decision != 'Y' && decision != 'N'){
-                printf("----- Ingrese una opcion valida [Y|N]: ");
+                // printf("----- Ingrese una opcion valida [Y|N]: ");
                 scanf("%c", &decision);
             }
             if (decision == 'Y') {
@@ -186,7 +187,7 @@ int movimientoUser(const int num_player, Juego *tablero){
             printf("----- Deseas activarlo? [Y|N]: ");
             scanf("%c", &decision);
             while(decision != 'Y' && decision != 'N'){
-                printf("----- Ingrese una opcion valida [Y|N]: ");
+                // printf("----- Ingrese una opcion valida [Y|N]: ");
                 scanf("%c", &decision);
             }
             if (decision == 'Y') {
@@ -218,6 +219,7 @@ int movimientoUser(const int num_player, Juego *tablero){
             }
             break;
         default:
+        printf("\n\n");
             break;
     }
     if(tablero->players[num_player-1] >= tablero->largo){ //GANE

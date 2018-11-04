@@ -36,32 +36,34 @@ int main(int argc, char const *argv[]){
 		if ((jugadores[i] = fork()) < 0) {
 			perror("Error al crear un jugador");
 			abort();
-		}else if (jugadores[posJugador] == 0) { //JUGADOR
-			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
-			// printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]);
-			if (MainUser(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
-				printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
-				exit(1);
-			}
-			exit(0);
 		} else if ( jugadores[i] == 0 ) { //estoy en proceso hijo
 			closePipes(hijo_padre[i][LEER], padre_hijo[i][ESCRIBIR]);
 			// printf("ID YO %d, ID PADRE %d\n", getpid(), getppid()); //DEBUG
 			// printf("%d, %d\n", padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]); // DEBUG
-			if (MainBot(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
-				printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
-				exit(1);
+			if (i == posJugador){ // para ejecutar al jugador
+				if (MainUser(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
+					printf("Error durante la ejecucion del Jugador %d --Proceso %d--\n", i+1, jugadores[i]);
+					exit(1);
+				}
+				exit(0);
 			}
-			exit(0);
+			else{ // ejecuto al bot
+				if (MainBot(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR], i +1, tablero) == -1){
+					printf("Error durante la ejecucion del BOT %d --Proceso %d--\n", i+1, jugadores[i]);
+					exit(1);
+				}
+				exit(0);
+			}
 		} else { //estoy en el padre
 			closePipes(padre_hijo[i][LEER], hijo_padre[i][ESCRIBIR]); //estando en el padre no se usan
 		}
 	}
-	sleep(1); // para que todos los hijos empiezen
+	
 	/*EJECUCION DEL JUEGO*/
 	bool termino = false;
 	printf("INICIO DEL JUEGO!!\n");
 	printTablero(tablero);
+	sleep(1); // para que todos los hijos empiezen
 	while(!termino){
 		salida = 0;
 		for (beginIteracion(tablero); !termino && (getMov(tablero) > -1 && getMov(tablero) < 4); nextIteracion(tablero)){
@@ -95,7 +97,7 @@ int main(int argc, char const *argv[]){
 						break;
 				}
 			}
-			sleep(2); // para poder leer la salida
+			sleep(3); // para poder leer la salida
 		}
 	}
 
