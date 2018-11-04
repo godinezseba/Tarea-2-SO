@@ -11,34 +11,35 @@
 int movimientoBot(const int num_player, Juego *tablero){
     int dado; // resultado del dado
     int opcion = 1; //
+    int salida = 0; // salida del programa (por defecto 0)
     dado = DadoChoice();
-    printf("-----Jugador %d, obtuvo un %d ", num_player, dado);
+    printf("----- Jugador %d, obtuvo un %d ", num_player, dado);
     tablero->players[num_player-1] += dado;
-    printf(", Posicion: %d *** -----\n", tablero->players[num_player-1]);
+    printf(", Posicion: %d * ------\n", tablero->players[num_player-1]);
 
     switch(tablero ->  mesa[tablero->players[num_player-1]-1]){
         case '1':
-            printf("-Caiste en un ?:\n");   
+            printf("----- Caiste en un ?:\n");   
             opcion = Casilla1Choice();
             switch (opcion) {
                 case 1:
-                    printf("Retrocedes una cuadricula!\n");
+                    printf("----- Retrocedes una cuadricula!\n");
                     tablero->players[num_player-1] += -1;
                     break;
                 case 2:
-                    printf("El resto retrocede una cuadricula!\n");
+                    printf("----- El resto retrocede una cuadricula!\n");
                     retrocedenPlayers(tablero, num_player);
                     break;
                 case 3:
-                    printf("Avanzas una cuadricula!\n");
+                    printf("----- Avanzas una cuadricula!\n");
                     tablero->players[num_player-1] += 1;
                     break;
                 case 4:
-                    printf("El siguiente pierde su turno!\n");
-                    pierdeSiguiente(tablero);
+                    printf("----- El siguiente pierde su turno!\n");
+                    salida = 5; // el main tendra que hacer el cambio
                     break;                  
                 case 5:
-                    printf("Cambia el sentido de los turnos!\n");
+                    printf("----- Cambia el sentido de los turnos!\n");
                     changeSentido(tablero);
                     break;
                 default: // a veces no devuelve nada 
@@ -46,27 +47,27 @@ int movimientoBot(const int num_player, Juego *tablero){
             }
             break;
         case '2':
-            printf("-Caiste en un \?\?:\n");
+            printf("----- Caiste en un \?\?:\n");
             opcion = Casilla2Choice(dado);
             switch (opcion) { // todo se puede hacer con funciones del tablero
                 case 1:
-                    printf("Todos retroceden 2 cuadriculas!\n");
+                    printf("----- Todos retroceden 2 cuadriculas!\n");
                     retrocedenAll(tablero);
                     break;
                 case 2:
-                    printf("El resto avanza hasta su proxima cuadricula blanca!\n");
+                    printf("----- El resto avanza hasta su proxima cuadricula blanca!\n");
                     avanzaBlanca(tablero, num_player);
                     break;
                 case 3:
-                    printf("Cambias con el ultimo!\n");
+                    printf("----- Cambias con el ultimo!\n");
                     changeMenor(tablero, num_player);
                     break;
                 case 4:
-                    printf("Cambias con el primero!\n");
+                    printf("----- Cambias con el primero!\n");
                     changeMayor(tablero, num_player);
                     break;
                 case 5:
-                    printf("Cambia el sentido del tablero!\n");
+                    printf("----- Cambia el sentido del tablero!\n");
                     changeLado(tablero);
                     break;                    
                 default:
@@ -78,10 +79,9 @@ int movimientoBot(const int num_player, Juego *tablero){
     }
     if(tablero->players[num_player-1] >= tablero->largo){ //GANE
         tablero->players[num_player-1] = 29;
-        return 1;
-    }else{ 
-        return 0;
+        salida = 1;
     }
+    return salida;
 }
 
 int MainBot(const int LPipe, const int EPipe, const int num_player, Juego *tablero) {

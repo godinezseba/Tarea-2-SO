@@ -73,13 +73,20 @@ int main(int argc, char const *argv[]){
 			}
 			else{
             	// printf("Padre recibe del hijo %d, %d --Proceso %d--\n", getMov(tablero)+1, entrada, jugadores[getMov(tablero)]); // DEBUG
-				if(entrada == 1){ //GANO
-					printf("Felicidades por ganar Jugador %d!!!!\n", getMov(tablero)+1);
-					termino = true;
+				printTablero(tablero);
+				switch (entrada) { 
+					case 1: //GANO
+						printf("Felicidades por ganar Jugador %d!!!!\n", getMov(tablero)+1);
+						termino = true;
+						break;
+					case 5: // siguiente pierde turno
+						pierdeSiguiente(tablero);
+						break;
+					default:
+						break;
 				}
 			}
 		}
-		printTablero(tablero);
 	}
 
 	/*TERMINO LOS PROCESOS (JUGADORES)*/
